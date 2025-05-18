@@ -1,6 +1,6 @@
 # Internal Search Engine
 
-## Version 1.0.0
+## Version 1.0.1
 
 Implementation of an internal site crawler, vector-based search engine, and Google-style UI.
 
@@ -22,14 +22,11 @@ This is group project for Advanced Programming course by Sándor Juhász and Ád
 
 ## Authors
 
-- Shayan Ghiaseddin  
-  MSc Business Informatics – Corvinus University of Budapest
+- **Shayan Ghiaseddin**: MSc Business Informatics – Corvinus University of Budapest
 
-- Péter Orosz
-  BSc Data Science – Corvinus University of Budapest
+- **Péter Orosz**: BSc Data Science – Corvinus University of Budapest
 
-- Bence Balázs Balás
-  MSc Business Informatics – Corvinus University of Budapest
+- **Bence Balázs Balás**: MSc Business Informatics – Corvinus University of Budapest
 
 ---
 
