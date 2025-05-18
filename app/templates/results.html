@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ query }} - Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <div class="header">
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='logo.svg') }}" width="92" title="Go Back Home">
+        </a>
+        <form action="/results" method="get" class="search-form results-form">
+            <span class="search-icon"><svg focusable="false" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path
+                        d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+                    </path>
+                </svg></span>
+            <input id="search_phrase" type="text" name="q" value="{{ query }}" required>
+        </form>
+    </div>
+
+    <div class="results-count">
+        {{ total }} results found
+    </div>
+
+    <div class="results-list">
+        {% for url, title, subtitle, similarity_score, pagerank_score in results %}
+        <div class="result-row">
+            <a href="{{ url }}" target="_blank" class="result-header">
+                <img src="{{ favicon }}" style="height:18px; width:18px">
+                <span>{{ website_title }} <small>{{ url }}</small></span>
+                <div class="result-scores">
+                    <span>Similarity: <strong>{{ similarity_score }}</strong></span>
+                    <span>PageRank: <strong>{{ pagerank_score }}</strong></span>
+                </div>
+            </a>
+            <a href="{{ url }}" target="_blank" class="result-title">
+                <h3>{{ title }}</h3>
+            </a>
+            <p class="result-subtitle">{{ subtitle[:200] }}...</p>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const input = document.getElementById('search_phrase');
+            if (!input) return;
+
+            const phrase = input.value.trim();
+            if (!phrase) return;
+
+            // Extract words (ignoring -words and quoted phrases for simplicity)
+            const words = phrase
+                .replace(/["']/g, '')       // remove quotes
+                .split(/\s+/)               // split by spaces
+                .filter(word => word && !word.startsWith('-'));  // exclude -excluded
+
+            if (words.length === 0) return;
+
+            // Get all result containers
+            const resultsContainer = document.querySelectorAll('.results-list');
+            words.forEach(word => {
+                const regex = new RegExp(`\\b(${word})\\b`, 'gi');
+
+                resultsContainer.forEach(result => {
+                    result.innerHTML = result.innerHTML.replace(regex, '<b>$1</b>');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
